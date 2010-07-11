@@ -3,14 +3,14 @@
 /*
 You may want to use oEmbed discovery instead of hard-coding the oEmbed endpoint.
 */
-$oembed_endpoint = 'http://www.vimeo.com/api/oembed';
+$oembed_endpoint = 'http://vimeo.com/api/oembed';
 
 // Grab the video url from the url, or use default
-$video_url = ($_GET['url']) ? $_GET['url'] : 'http://www.vimeo.com/757219';
+$video_url = ($_GET['url']) ? $_GET['url'] : 'http://vimeo.com/757219';
 
 // Create the URLs
-$json_url = $oembed_endpoint.'.json?url='.rawurlencode($video_url);
-$xml_url = $oembed_endpoint.'.xml?url='.rawurlencode($video_url);
+$json_url = $oembed_endpoint . '.json?url=' . rawurlencode($video_url);
+$xml_url = $oembed_endpoint . '.xml?url=' . rawurlencode($video_url);
 
 // Curl helper function
 function curl_get($url) {
@@ -31,20 +31,18 @@ $oembed = simplexml_load_string(curl_get($xml_url));
 */
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
 	<title>Vimeo PHP oEmbed Example</title>
 </head>
 <body>
 
-	<h1><?=$oembed->title?></h1>
-	<h2>by <a href="<?=$oembed->author_url?>"><?=$oembed->author_name?></a></h2>
+	<h1><?php echo $oembed->title ?></h1>
+	<h2>by <a href="<?php echo $oembed->author_url ?>"><?php echo $oembed->author_name ?></a></h2>
 
-	<?=html_entity_decode($oembed->html)?>
+	<?php echo html_entity_decode($oembed->html) ?>
 
 </body>
 </html>

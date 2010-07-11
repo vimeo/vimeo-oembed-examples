@@ -1,18 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
 	<title>Vimeo Simple API Example</title>
-	<style type="text/css">
+	
+	<style>
 		ul { list-style-type: none; margin: 0; padding: 0; }
 		li { display: inline; padding: 0; margin: 10px 2px; }
 		img { border: 0; }
 		img#portrait { float: left; margin-right: 5px; }
 		#stats { clear: both; }
 	</style>
-	<script type="text/javascript">
+	
+	<script>
 		
 		// Change this to your username to load in your clips
 		var vimeoUserName = 'brad';
@@ -22,8 +22,8 @@
 		var videosCallback = 'showThumbs';
 		
 		// Set up the URLs
-		var userInfoUrl = 'http://www.vimeo.com/api/v2/' + vimeoUserName + '/info.json?callback=' + userInfoCallback;
-		var videosUrl = 'http://www.vimeo.com/api/v2/' + vimeoUserName + '/videos.json?callback=' + videosCallback;
+		var userInfoUrl = 'http://vimeo.com/api/v2/' + vimeoUserName + '/info.json?callback=' + userInfoCallback;
+		var videosUrl = 'http://vimeo.com/api/v2/' + vimeoUserName + '/videos.json?callback=' + videosCallback;
 		
 		// This function loads the data from Vimeo
 		function init() {

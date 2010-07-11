@@ -1,9 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
 	<title>Vimeo Simple API and oEmbed Example</title>
 	<script type="text/javascript">
 		
@@ -15,8 +13,8 @@
 		var oEmbedCallback = 'embedVideo';
 		
 		// Set up the URLs
-		var videosUrl = 'http://www.vimeo.com/api/v2/' + vimeoUserName + '/videos.json?callback=' + videoCallback;
-		var oEmbedUrl = 'http://www.vimeo.com/api/oembed.json';
+		var videosUrl = 'http://vimeo.com/api/v2/' + vimeoUserName + '/videos.json?callback=' + videoCallback;
+		var oEmbedUrl = 'http://vimeo.com/api/oembed.json';
 		
 		// This function puts the video on the page
 		function embedVideo(video) {

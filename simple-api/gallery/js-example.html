@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
 	<title>Vimeo Simple API Gallery Example</title>
-	<style type="text/css">
+	
+	<style>
 		#thumbs { overflow: auto; height: 298px; width: 300px; border: 1px solid #E7E7DE; padding: 0; float: left; }
 		#thumbs ul { list-style-type: none; margin: 0 10px 0; padding: 0 0 10px 0; }
 		#thumbs ul li { height: 75px; }
@@ -17,11 +16,12 @@
 		#portrait { float: left; margin-right: 5px; max-width: 100px; }
 		#stats { clear: both; margin-bottom: 20px; }
 	</style>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-	<script type="text/javascript">
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script>
 		
-		var apiEndpoint = 'http://www.vimeo.com/api/v2/';
-		var oEmbedEndpoint = 'http://www.vimeo.com/api/oembed.json'
+		var apiEndpoint = 'http://vimeo.com/api/v2/';
+		var oEmbedEndpoint = 'http://vimeo.com/api/oembed.json'
 		var oEmbedCallback = 'switchVideo';
 		var videosCallback = 'setupGallery';
 		var vimeoUsername = 'brad';

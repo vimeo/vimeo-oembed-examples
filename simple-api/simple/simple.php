@@ -4,7 +4,7 @@
 $vimeo_user_name = ($_GET['user']) ? $_GET['user'] : 'brad';
 
 // API endpoint
-$api_endpoint = 'http://www.vimeo.com/api/v2/'.$vimeo_user_name;
+$api_endpoint = 'http://vimeo.com/api/v2/' . $vimeo_user_name;
 
 // Curl helper function
 function curl_get($url) {
@@ -17,18 +17,16 @@ function curl_get($url) {
 }
 
 // Load the user info and clips
-$user = simplexml_load_string(curl_get($api_endpoint.'/info.xml'));
-$videos = simplexml_load_string(curl_get($api_endpoint.'/videos.xml'));
+$user = simplexml_load_string(curl_get($api_endpoint . '/info.xml'));
+$videos = simplexml_load_string(curl_get($api_endpoint . '/videos.xml'));
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Vimeo Simple API PHP Example</title>
-	<style type="text/css">
+	<meta charset="utf-8">
+	<title>Vimeo Simple API Example</title>
+	<style>
 		ul { list-style-type: none; margin: 0; padding: 0; }
 		li { display: inline; padding: 0; margin: 10px 2px; }
 		img { border: 0; }
@@ -40,17 +38,17 @@ $videos = simplexml_load_string(curl_get($api_endpoint.'/videos.xml'));
 	
 	<h1>Vimeo Simple API PHP Example</h1>
 	<div id="stats">
-		<img id="portrait" src="<?=$user->user->portrait_small?>" />
-		<h2><?=$user->user->display_name?>'s Videos</h2>
+		<img id="portrait" src="<?php echo $user->user->portrait_small ?>" />
+		<h2><?php echo $user->user->display_name ?>'s Videos</h2>
 	</div>
-	<p id="bio"><?=($user->user->bio)?></p>
+	<p id="bio"><?php echo $user->user->bio ?></p>
 	<div id="thumbs">
 		<ul>
 		<?php foreach ($videos->video as $video): ?>
 			<li>
-				<a href="<?=$video->url?>"><img src="<?=$video->thumbnail_medium?>" /></a>
+				<a href="<?php echo $video->url ?>"><img src="<?php echo $video->thumbnail_medium ?>" /></a>
 			</li>
-		<?php endforeach; ?>
+		<?php endforeach ?>
 		</ul>
 	</div>
 	

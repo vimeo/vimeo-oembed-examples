@@ -1,7 +1,7 @@
 <?php
 
 // The Simple API URL
-$api_endpoint = 'http://www.vimeo.com/api/v2/';
+$api_endpoint = 'http://vimeo.com/api/v2/';
 
 // Curl helper function
 function curl_get($url) {
@@ -19,8 +19,8 @@ if ($_GET['album']) {
 	$album_id = $_GET['album'];
 	
 	// Load the videos and info
-	$videos = simplexml_load_string(curl_get($api_endpoint.'album/'.$album_id.'/videos.xml'));
-	$info = simplexml_load_string(curl_get($api_endpoint.'album/'.$album_id.'/info.xml'));
+	$videos = simplexml_load_string(curl_get($api_endpoint . 'album/' . $album_id . '/videos.xml'));
+	$info = simplexml_load_string(curl_get($api_endpoint . 'album/' . $album_id . '/info.xml'));
 	
 	// Thumbnail and title
 	$image = $info->album->thumbnail;
@@ -33,8 +33,8 @@ else if ($_GET['group']) {
 	$group_id = $_GET['group'];
 	
 	// Load the videos and info
-	$videos = simplexml_load_string(curl_get($api_endpoint.'group/'.$group_id.'/videos.xml'));
-	$info = simplexml_load_string(curl_get($api_endpoint.'group/'.$group_id.'/info.xml'));
+	$videos = simplexml_load_string(curl_get($api_endpoint . 'group/' . $group_id . '/videos.xml'));
+	$info = simplexml_load_string(curl_get($api_endpoint . 'group/' . $group_id . '/info.xml'));
 	
 	// Thumbnail and title
 	$image = $info->group->thumbnail;
@@ -47,8 +47,8 @@ else if ($_GET['channel']) {
 	$channel_id = $_GET['channel'];
 	
 	// Load the videos and info
-	$videos = simplexml_load_string(curl_get($api_endpoint.'channel/'.$channel_id.'/videos.xml'));
-	$info = simplexml_load_string(curl_get($api_endpoint.'channel/'.$channel_id.'/info.xml'));
+	$videos = simplexml_load_string(curl_get($api_endpoint . 'channel/' . $channel_id . '/videos.xml'));
+	$info = simplexml_load_string(curl_get($api_endpoint . 'channel/' . $channel_id . '/info.xml'));
 	
 	// Thumbnail and title
 	$image = null;
@@ -61,23 +61,22 @@ else {
 	$vimeo_user_name = ($_GET['user']) ? $_GET['user'] : 'brad';
 
 	// Load the user's videos
-	$videos = simplexml_load_string(curl_get($api_endpoint.$vimeo_user_name.'/videos.xml'));
+	$videos = simplexml_load_string(curl_get($api_endpoint.$vimeo_user_name . '/videos.xml'));
 	
 	// Thumbnail and title
 	$image = $videos->video[0]->user_portrait_medium;
-	$title = $videos->video[0]->user_name."'s Videos";
+	$title = $videos->video[0]->user_name . "'s Videos";
 	
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
 	<title>Vimeo Simple API Gallery Example</title>
-	<style type="text/css">
+	
+	<style>
 		#thumbs { overflow: auto; height: 298px; width: 300px; border: 1px solid #E7E7DE; padding: 0; float: left; }
 		#thumbs ul { list-style-type: none; margin: 0 10px 0; padding: 0 0 10px 0; }
 		#thumbs ul li { height: 75px; }
@@ -89,7 +88,8 @@ else {
 		#portrait { float: left; margin-right: 5px; max-width: 100px; }
 		#stats { clear: both; margin-bottom: 20px; }
 	</style>
-	<script type="text/javascript">
+	
+	<script>
 		
 		// Tell Vimeo what function to call
 		var oEmbedCallback = 'embedVideo';
@@ -103,7 +103,6 @@ else {
 		// This function puts the video on the page
 		function embedVideo(video) {
 			var videoEmbedCode = video.html;
-			//videoEmbedCode = videoEmbedCode.replace(/height="(\d+)"/, 'height="280"');
 			document.getElementById('embed').innerHTML = unescape(videoEmbedCode);
 		}
 		
@@ -139,7 +138,6 @@ else {
 		// This function loads the data from Vimeo
 		function loadScript(url) {
 			var js = document.createElement('script');
-			js.setAttribute('type', 'text/javascript');
 			js.setAttribute('src', url);
 			document.getElementsByTagName('head').item(0).appendChild(js);
 		}
@@ -153,8 +151,8 @@ else {
 	
 	<h1>Vimeo Simple API Gallery Example</h1>
 	<div id="stats">
-		<img id="portrait" src="<?=$image?>" />
-		<h2><?=$title?></h2>
+		<img id="portrait" src="<?php echo $image ?>" />
+		<h2><?php echo $title ?></h2>
 		<div style="clear: both;"></div>
 	</div>
 	<div id="wrapper">
@@ -163,10 +161,12 @@ else {
 			<ul>
 			<?php foreach ($videos->video as $video): ?>
 				<li>
-					<a href="<?=$video->url?>"><img src="<?=$video->thumbnail_medium?>" class="thumb" />
-					<p><?=$video->title?></p></a>
+					<a href="<?php echo $video->url ?>">
+						<img src="<?php echo $video->thumbnail_medium ?>" class="thumb" />
+						<p><?=$video->title?></p>
+					</a>
 				</li>
-			<?php endforeach; ?>
+			<?php endforeach ?>
 			</ul>
 		</div>
 	</div>
