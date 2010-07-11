@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Vimeo Moogaloop API Example using Mootools</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js"></script>
+	<script type="text/javascript">
+		
+		var video_id = 4632707;
+		var moogaloop = false;
+		
+		function vimeo_player_loaded(swf_id) {
+			moogaloop = $(swf_id);
+			$('controls').setStyle('display', '');
+			
+			Swiff.remote(moogaloop, 'api_addEventListener', 'onProgress', 'vimeo_on_progress');
+			Swiff.remote(moogaloop, 'api_addEventListener', 'onLoading',  'vimeo_on_loading');
+			Swiff.remote(moogaloop, 'api_addEventListener', 'onFinish',   'vimeo_on_finish');
+			Swiff.remote(moogaloop, 'api_addEventListener', 'onPlay',     'vimeo_on_play');
+			Swiff.remote(moogaloop, 'api_addEventListener', 'onPause',    'vimeo_on_pause');
+			Swiff.remote(moogaloop, 'api_addEventListener', 'onSeek',     'vimeo_on_seek');
+			
+			$('vimeo_duration').innerHTML = Swiff.remote(moogaloop, 'api_getDuration');
+		}
+		
+		function vimeo_on_play(swf_id) {
+			$('state').innerHTML = 'Playing';
+		}
+		
+		function vimeo_on_pause(swf_id) {
+			$('state').innerHTML = 'Paused';
+		}
+		
+		function vimeo_on_seek(time, swf_id) {
+			$('state').innerHTML = 'Seeking to ' + time;
+		}
+		
+		function vimeo_on_progress(time, swf_id) {
+			$('vimeo_cur_time').innerHTML = time + 's';
+		}
+		
+		function vimeo_on_loading(data, swf_id) {
+			$('vimeo_bytes_loaded').innerHTML = data.bytesLoaded;
+			$('vimeo_bytes_total').innerHTML = data.bytesTotal;
+			$('vimeo_decimal_loaded').innerHTML = data.decimal;
+			$('vimeo_percent_loaded').innerHTML = data.percent + '%';
+		}
+		
+		function vimeo_on_finish(swf_id) {
+			$('state').innerHTML = 'Finished';
+		}
+		
+		function toggle_loop(el) {
+			if (el.value == 'Loop is off') {
+				el.value = 'Loop is on';
+				Swiff.remote(moogaloop, 'api_setLoop', true);
+			}
+			else {
+				el.value = 'Loop is off';
+				Swiff.remote(moogaloop, 'api_setLoop', false);
+			}
+		}
+		
+		// Run the javascript when the page is ready
+		window.addEvent('domready', function() { 
+			// For more Swiff documentation visit: http://mootools.net/docs/core/Utilities/Swiff
+			var swf_id = 'moogaloop';
+			var moogaloop = new Swiff('http://vimeo.com/moogaloop.swf', {
+			    id: swf_id,
+				container: 'vimeo_player_holder',	
+			    width: 504,
+			    height: 340,
+			    vars: {
+			        clip_id: video_id,
+			        show_portrait: 1,
+			        show_byline: 1,
+			        show_title: 1,
+					js_api: 1, // required in order to use the Javascript API
+					js_onLoad: 'vimeo_player_loaded', // moogaloop will call this JS function when it's done loading (optional)
+ 					js_swf_id: 'moogaloop' // this will be passed into all event methods so you can keep track of multiple moogaloops (optional)
+			    }
+			});
+		});
+	</script>
+</head>
+<body>
+	
+	<h1>Vimeo Moogaloop API Example using Mootools</h1>
+	<div id="vimeo_player_holder" style="width: 504px; height: 340px;"></div>
+	<div id="controls" style="display: none;">
+		<p>
+			<a href="javascript: void(0)" onclick="Swiff.remote(moogaloop, 'api_play')">Play</a> 
+			<a href="javascript: void(0)" onclick=" Swiff.remote(moogaloop, 'api_pause')">Pause</a>
+		</p>
+		<p>
+			State: <span id="state"></span><br />
+			Duration: <span id="vimeo_duration">0</span> seconds<br />
+			Seek: <input type="text" value="0" onblur="Swiff.remote(moogaloop, 'api_seekTo', this.value)" /><br />
+			Color: <input type="text" value="" onblur="Swiff.remote(moogaloop, 'api_changeColor', this.value)" /><br />
+			Volume: <input type="text" value="100" onblur="Swiff.remote(moogaloop, 'api_setVolume', this.value)" /><br />
+			<input type="button" value="Loop is off" onclick="toggle_loop(this);" />
+		</p>
+		<p>
+			Current time: <span id="vimeo_cur_time">0</span><br />
+			Bytes loaded: <span id="vimeo_bytes_loaded">0</span> / <span id="vimeo_bytes_total">0</span> = <span id="vimeo_decimal_loaded">0</span> = <span id="vimeo_percent_loaded">0%</span><br />
+			
+		</p>
+	</div>
+	
+</body>
+</html>

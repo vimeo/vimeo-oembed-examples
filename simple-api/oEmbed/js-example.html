@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Vimeo Simple API and oEmbed Example</title>
+	<script type="text/javascript">
+		
+		// Change this to your username to load in your clips
+		var vimeoUserName = 'brad';
+		
+		// Tell Vimeo what function to call
+		var videoCallback = 'latestVideo';
+		var oEmbedCallback = 'embedVideo';
+		
+		// Set up the URLs
+		var videosUrl = 'http://www.vimeo.com/api/v2/' + vimeoUserName + '/videos.json?callback=' + videoCallback;
+		var oEmbedUrl = 'http://www.vimeo.com/api/oembed.json';
+		
+		// This function puts the video on the page
+		function embedVideo(video) {
+			videoEmbedCode = video.html;
+			document.getElementById('embed').innerHTML = unescape(video.html);
+		}
+		
+		// This function uses oEmbed to get the last clip
+		function latestVideo(videos) {
+			var videoUrl = videos[0].url;
+			
+			// Get the oEmbed stuff
+			loadScript(oEmbedUrl + '?url=' + encodeURIComponent(videoUrl) + '&callback=' + oEmbedCallback);
+		}
+		
+		// This function loads the data from Vimeo
+		function loadScript(url) {
+			var js = document.createElement('script');
+			js.setAttribute('type', 'text/javascript');
+			js.setAttribute('src', url);
+			document.getElementsByTagName('head').item(0).appendChild(js);
+		}
+		
+		// Call our init function when the page loads
+		window.onload = loadScript(videosUrl);
+		
+	</script>
+</head>
+<body>
+	
+	<h1>Vimeo Simple API and oEmbed Example</h1>
+	<div id="stats"></div>
+	<div id="embed">Loading latest video...</div>
+	
+</body>
+</html>
