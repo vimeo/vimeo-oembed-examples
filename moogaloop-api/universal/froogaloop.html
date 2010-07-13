@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<style>
+			iframe{
+				display:block;
+				border:0;
+			}
+			div div {
+				margin-bottom:20px;
+			}
+			
+			.api_output {
+				float:right;
+				padding-left: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div style="float:left; overflow:hidden;">
+			<div>
+				<div class="api_output"></div>
+				
+				<iframe id="player_1" src="http://trunk.joe.vimeows.com/moogembed?clip_id=7100569&show_title=1&show_byline=1&show_portrait=1&color=01AAEA&fullscreen=1&js_api=1&js_swf_id=player_1" width="500" height="281"></iframe>
+				<button class="simple" id="api_play">Play</button>
+				<button class="simple" id="api_pause">Pause</button>
+				<button class="simple" id="api_unload">Unload</button>
+				<button class="seek">Seek to 30</button>
+				<button class="loop">Toggle Loop</button>
+				<button class="volume">Toggle Volume</button>
+				<button class="color">Random Color</button>
+			</div>
+		
+			<div>
+				<div class="api_output"></div>
+				
+				<iframe id="player_2" src="http://trunk.joe.vimeows.com/moogembed?clip_id=11403330&show_title=1&show_byline=1&show_portrait=1&color=01AAEA&fullscreen=1&js_api=1&js_swf_id=player_2" width="500" height="281"></iframe>
+				<button class="simple" id="api_play">Play</button>
+				<button class="simple" id="api_pause">Pause</button>
+				<button class="simple" id="api_unload">Unload</button>
+				<button class="seek">Seek to 30</button>
+				<button class="loop">Toggle Loop</button>
+				<button class="volume">Toggle Volume</button>
+				<button class="color">Random Color</button>
+			</div>
+			
+			<div>
+				<div class="api_output"></div>
+				
+				<iframe id="player_3" src="http://trunk.joe.vimeows.com/moogembed?clip_id=7805972&show_title=1&show_byline=1&show_portrait=1&color=01AAEA&fullscreen=1&js_api=1&js_swf_id=player_3" width="500" height="281"></iframe>
+				<button class="simple" id="api_play">Play</button>
+				<button class="simple" id="api_pause">Pause</button>
+				<button class="simple" id="api_unload">Unload</button>
+				<button class="seek">Seek to 30</button>
+				<button class="loop">Toggle Loop</button>
+				<button class="volume">Toggle Volume</button>
+				<button class="color">Random Color</button>
+			</div>
+		</div>
+		
+		
+		<script src="http://josephschmitt.net/vimeo/jquery.min.js" type="text/javascript"></script>
+		<script src="http://josephschmitt.net/vimeo/jquery.ba.postmessage.js" type="text/javascript"></script>
+		<script src="http://trunk.joe.vimeows.com/assets/js/get/DEV/froogaloop"></script>
+		<script type="text/javascript">
+			var VimeoEmbed = {};
+			
+			//Class variables
+			VimeoEmbed.server 				= 'http://trunk.joe.vimeows.com';
+			// VimeoEmbed.embed_obj			= document.getElementsByTagName('iframe')[0];
+			
+			//Called on document ready
+			VimeoEmbed.init = function(e)
+			{
+				Froogaloop.addEvent('onLoad', VimeoEmbed.vimeo_player_loaded, $('#player_1').get(0));
+				Froogaloop.addEvent('onLoad', VimeoEmbed.vimeo_player_loaded, $('#player_2').get(0));
+				Froogaloop.addEvent('onLoad', VimeoEmbed.vimeo_player_loaded, $('#player_3').get(0));
+			};
+			
+			
+			//EVENT CALLBACKS
+			VimeoEmbed.vimeo_player_loaded = function(player_id)
+			{
+				$('#'+player_id).prev('.api_output').append('VimeoEmbed.vimeo_player_loaded ' + player_id+'<br/>');
+				
+				var loop = 0;
+				var volume = 100;
+					
+				$('#'+player_id).nextAll('button.simple').bind('click', {'player_id': player_id}, function(e){
+					Froogaloop.api( $(e.target).attr('id'), null, $('#'+e.data.player_id).get(0) );
+				});
+
+				$('#'+player_id).nextAll('button.seek').bind('click', {player_id: player_id}, function(e){
+					Froogaloop.api('api_seekTo', 30, $('#'+e.data.player_id).get(0));
+				});
+
+				$('#'+player_id).nextAll('button.loop').bind('click', {player_id: player_id}, function(e){
+					loop = loop == 0 ? 1 : 0;
+					Froogaloop.api('api_setLoop', loop, $('#'+e.data.player_id).get(0));
+				});
+
+				$('#'+player_id).nextAll('button.volume').bind('click', {player_id: player_id}, function(e){
+					volume = volume == 100 ? 50 : 100;
+					Froogaloop.api('api_setVolume', volume, $('#'+e.data.player_id).get(0));
+				});
+
+				$('#'+player_id).nextAll('button.color').bind('click', {player_id: player_id}, function(e){
+					Froogaloop.api('api_changeColor', Math.floor(Math.random()*16777215).toString(16), $('#'+e.data.player_id).get(0));
+				});
+				
+				//API EVENT LISTENERS
+				VimeoEmbed.setupAPIEventListeners($('#'+player_id).get(0));
+			};
+			
+			VimeoEmbed.setupAPIEventListeners = function(target)
+			{
+				Froogaloop.addEvent( 'onPlay', VimeoEmbed.vimeo_on_play, target);
+				Froogaloop.addEvent( 'onPause', VimeoEmbed.vimeo_on_pause, target);
+				Froogaloop.addEvent( 'onSeek', VimeoEmbed.vimeo_on_seek, target);
+				Froogaloop.addEvent( 'onProgress', VimeoEmbed.vimeo_on_progress, target);
+			};
+			
+			
+			//API EVENTS
+			VimeoEmbed.vimeo_on_play = function(player_id) {
+				$('#'+player_id).prev('.api_output').html('Playing<br/>');
+			};
+
+			VimeoEmbed.vimeo_on_pause = function(player_id) {
+				$('#'+player_id).prev('.api_output').html('Paused<br/>');
+			};
+
+			VimeoEmbed.vimeo_on_seek = function(time, player_id) {
+				$('#'+player_id).prev('.api_output').html('Seeking to ' + time+'<br/>');
+			};
+
+			VimeoEmbed.vimeo_on_progress = function(time, player_id) {
+				$('#'+player_id).prev('.api_output').html(time + 's<br/>');
+			};
+			
+			
+			//UTILITIES FUNCTIONS
+			VimeoEmbed.postMessage = function(method, params)
+			{
+				if( params === undefined || params === null ) params = '';
+				else if(params.join) params = params.join(',');
+				
+				$.postMessage(
+					{
+						'method': method,
+						'params': params
+					},
+					VimeoEmbed.server+'/moogembed',
+					VimeoEmbed.embed_obj.contentWindow
+				);
+			};
+			
+			//On document ready
+			$(document).ready(VimeoEmbed.init);
+		</script>
+	</body>
+</html>
