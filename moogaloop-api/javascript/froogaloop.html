@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
-        <title></title>
+        <title>Froogaloop JavaScript API Example</title>
         <style>
             iframe{
                 display:block;
@@ -118,7 +118,10 @@
                 //API EVENT LISTENERS
                 VimeoEmbed.setupAPIEventListeners($('#'+player_id).get(0));
             };
-
+            
+            /**
+             * Adds event listeners for Moogaloop events.
+             */
             VimeoEmbed.setupAPIEventListeners = function(target)
             {
                 target.addEvent( 'onPlay', VimeoEmbed.vimeo_on_play);
