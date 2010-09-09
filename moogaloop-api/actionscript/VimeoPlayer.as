@@ -23,6 +23,7 @@ package {
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.events.MouseEvent;
+        import flash.geom.Point;
 	import flash.utils.Timer;
 	import flash.system.Security;
 	
