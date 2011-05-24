@@ -39,7 +39,9 @@
 		}
 		
 		// Call our init function when the page loads
-		window.onload = loadScript(videosUrl);
+		window.onload = function() {
+		    loadScript(videosUrl);
+		};
 		
 	</script>
 </head>
