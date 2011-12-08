@@ -11,6 +11,7 @@ function curl_get($url) {
 	$curl = curl_init($url);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 	$return = curl_exec($curl);
 	curl_close($curl);
 	return $return;
@@ -35,7 +36,7 @@ $videos = simplexml_load_string(curl_get($api_endpoint . '/videos.xml'));
 	</style>
 </head>
 <body>
-	
+
 	<h1>Vimeo Simple API PHP Example</h1>
 	<div id="stats">
 		<img id="portrait" src="<?php echo $user->user->portrait_small ?>" />
@@ -51,6 +52,6 @@ $videos = simplexml_load_string(curl_get($api_endpoint . '/videos.xml'));
 		<?php endforeach ?>
 		</ul>
 	</div>
-	
+
 </body>
 </html>

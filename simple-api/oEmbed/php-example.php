@@ -12,6 +12,7 @@ function curl_get($url) {
 	$curl = curl_init($url);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 	$return = curl_exec($curl);
 	curl_close($curl);
 	return $return;
@@ -36,7 +37,7 @@ $embed_code = html_entity_decode($oembed->html);
 	<title>Vimeo Simple API and oEmbed Example</title>
 </head>
 <body>
-	
+
 	<h1>Vimeo Simple API and oEmbed Example</h1>
 	<?php echo $embed_code ?>
 
