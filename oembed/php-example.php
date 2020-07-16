@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 You may want to use oEmbed discovery instead of hard-coding the oEmbed endpoint.
