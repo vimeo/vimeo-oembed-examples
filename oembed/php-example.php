@@ -6,7 +6,7 @@ You may want to use oEmbed discovery instead of hard-coding the oEmbed endpoint.
 $oembed_endpoint = 'http://vimeo.com/api/oembed';
 
 // Grab the video url from the url, or use default
-$video_url = ($_GET['url']) ? $_GET['url'] : 'http://vimeo.com/7100569';
+$video_url = ($_GET['url']) ? $_GET['url'] : 'http://vimeo.com/288344114';
 
 // Create the URLs
 $json_url = $oembed_endpoint . '.json?url=' . rawurlencode($video_url) . '&width=640';
